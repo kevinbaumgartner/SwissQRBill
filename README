@@ -1,0 +1,90 @@
+Swiss QR Bill Library
+
+Swiss QR Bill Library is a lightweight Swift library for generating compliant Swiss QR Codes and PDFs for financial transactions. It simplifies the process of creating and handling Swiss QR Bills by providing easy-to-use APIs.
+
+Features
+
+Generate Swiss QR Codes based on the official standards.
+
+Create fully compliant PDFs for payment slips.
+
+Support for customization of creditor, debtor, amount, reference types, and more.
+
+Lightweight and dependency-free.
+
+Installation
+
+Swift Package Manager
+
+Add the following to your Package.swift:
+
+// swift-tools-version:5.7
+import PackageDescription
+
+let package = Package(
+    name: "YourProjectName",
+    dependencies: [
+        .package(url: "https://github.com/kevinbaumgartner/SwissQRBillLibrary.git", from: "1.0.0")
+    ],
+    targets: [
+        .target(
+            name: "YourTargetName",
+            dependencies: ["SwissQRBillLibrary"])
+    ]
+)
+
+Then run:
+
+swift build
+
+Usage
+
+1. Define Creditor and Debtor
+
+Create the necessary Creditor and Debtor instances:
+
+let creditor = Creditor(name: "Max Mustermann", street: "Musterstrasse 37", zipCode: "6000", city: "Luzern", country: "CH")
+let debtor = Debtor(name: "Alexandra Alexis", street: "Musterweg 1", zipCode: "8000", city: "Zürich", country: "CH")
+
+2. Create an IBAN
+
+guard let iban = IBAN(value: "CH9300762011623852957") else {
+    fatalError("Invalid IBAN")
+}
+
+3. Generate a QR Bill
+
+let bill = QRBill(
+    account: iban,
+    creditor: creditor,
+    debtor: debtor,
+    amount: 199.95,
+    currency: "CHF",
+    referenceType: .NON,
+    reference: "123456789012345678901234567",
+    additionalInfo: "Invoice 123"
+)
+
+4. Generate QR Code
+
+let qrString = QRBillGenerator.generateQRString(from: bill)
+if let qrImage = QRCodeGenerator.generateQRCode(from: qrString, size: CGSize(width: 300, height: 300)) {
+    print("QR Code generated successfully")
+}
+
+5. Generate PDF
+
+if let pdfData = QRBillGenerator.generateCompliantPDF(for: bill) {
+    print("PDF generated successfully")
+}
+
+Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue if you encounter any problems or have feature requests.
+
+License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+Happy coding with Swiss QR Bill Library! 🎉
+
