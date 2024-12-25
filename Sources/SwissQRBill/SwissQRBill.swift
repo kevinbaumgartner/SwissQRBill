@@ -7,13 +7,13 @@ import UIKit
 import CoreImage
 import PDFKit
 
-public class QRCodeGenerator {
+class QRCodeGenerator {
     /// Generates a QR code image from a string
     /// - Parameters:
     ///   - string: The content to encode in the QR code
     ///   - size: The desired size of the QR code image
     /// - Returns: A `UIImage` representing the QR code
-    public static func generateQRCode(from string: String, size: CGSize) -> UIImage? {
+    static func generateQRCode(from string: String, size: CGSize) -> UIImage? {
         guard let data = string.data(using: .utf8) else { return nil }
         
         // Create a QR code filter
@@ -35,9 +35,9 @@ public class QRCodeGenerator {
     }
 }
 
-class QRBillGenerator {
+public class QRBillGenerator {
     /// Generates the QR code image from a QR bill
-    static func generateQRBillImage(from bill: QRBill, size: CGSize) -> UIImage? {
+    public static func generateQRBillImage(from bill: QRBill, size: CGSize) -> UIImage? {
         let qrString = generateQRString(from: bill)
         return QRCodeGenerator.generateQRCode(from: qrString, size: size)
     }
@@ -82,7 +82,7 @@ class QRBillGenerator {
     }
     
     /// Generates a PDF file compliant with the Swiss QR Bill standards
-    static func generateCompliantPDF(for bill: QRBill) -> Data? {
+    public static func generateQRBillPDF(for bill: QRBill) -> Data? {
         let pdfMetaData = [
             kCGPDFContextCreator: "QRBillLibrary",
             kCGPDFContextAuthor: "SwissQRBillLibrary"

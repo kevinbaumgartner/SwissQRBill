@@ -62,7 +62,7 @@ class QRBillLibraryTests {
 
     @Test("Check PDF output and save to repository")
     func testPDFContentComplianceAndSave() {
-        let pdfData = QRBillGenerator.generateCompliantPDF(for: bill)
+        let pdfData = QRBillGenerator.generateQRBillPDF(for: bill)
         assert(pdfData != nil)
 
         // Save PDF to a specific repository path

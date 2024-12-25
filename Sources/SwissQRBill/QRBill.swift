@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct QRBill {
+public struct QRBill {
     let account: IBAN
     let creditor: Creditor
     let debtor: Debtor
@@ -35,7 +35,7 @@ enum RefrenceType: String {
     case NON = "NON"
 }
 
-struct IBAN {
+public struct IBAN {
     let value: String
 
     init?(value: String) {
