@@ -17,7 +17,7 @@ public struct QRBill {
     let reference: String?
     let additionalInfo: String?
     
-    init(account: IBAN, creditor: Creditor, debtor: Debtor, amount: Double, currency: String, referenceType: RefrenceType, reference: String, additionalInfo: String?) {
+    public init(account: IBAN, creditor: Creditor, debtor: Debtor, amount: Double, currency: String, referenceType: RefrenceType, reference: String, additionalInfo: String?) {
         self.account = account
         self.creditor = creditor
         self.debtor = debtor
@@ -29,7 +29,7 @@ public struct QRBill {
     }
 }
 
-enum RefrenceType: String {
+public enum RefrenceType: String {
     case QRR = "QRR"
     case SCOR = "SCOR"
     case NON = "NON"
@@ -38,7 +38,7 @@ enum RefrenceType: String {
 public struct IBAN {
     let value: String
 
-    init?(value: String) {
+    public init?(value: String) {
         guard IBAN.isValid(value) else {
             return nil
         }
