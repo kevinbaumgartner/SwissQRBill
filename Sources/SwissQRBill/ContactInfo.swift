@@ -5,7 +5,6 @@
 //  Created by Kevin Baumgartner on 25.12.2024.
 //
 
-
 protocol ContactInfo {
     var name: String { get }
     var street: String { get }
@@ -20,6 +19,14 @@ public struct Creditor: ContactInfo  {
     var zipCode: String
     var city: String
     var country: String
+    
+    public init(name: String, street: String, zipCode: String, city: String, country: String) {
+        self.name = name
+        self.street = street
+        self.zipCode = zipCode
+        self.city = city
+        self.country = country
+    }
 }
 
 public struct Debtor: ContactInfo {
@@ -28,4 +35,12 @@ public struct Debtor: ContactInfo {
     var zipCode: String
     var city: String
     var country: String
+    
+    public init(name: String, street: String, zipCode: String, city: String, country: String) {
+        self.name = name
+        self.street = street
+        self.zipCode = zipCode
+        self.city = city
+        self.country = country
+    }
 }
