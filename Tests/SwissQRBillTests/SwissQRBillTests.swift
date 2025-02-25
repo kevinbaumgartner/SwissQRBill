@@ -5,6 +5,9 @@ import Testing
 import Foundation
 import PDFKit
 @testable import SwissQRBill
+#if os(iOS)
+import UIKit
+#endif
 
 @Suite("QRBillLibraryTests")
 class QRBillLibraryTests {
@@ -49,10 +52,29 @@ class QRBillLibraryTests {
 
         // Save QR code image to a specific repository path
         if let image = image {
-            let repoPath = URL(fileURLWithPath: "/Users/kevinbaumgartner/Documents/Projekte/Libraries/SwissQRBill/Results/") // Replace with your actual repository path
+            #if os(iOS)
+            guard let pngData = image.pngData() else {
+                assertionFailure("Failed to generate PNG data")
+                return
+            }
+            #elseif os(macOS)
+            guard let tiffData = image.tiffRepresentation,
+                  let bitmapImage = NSBitmapImageRep(data: tiffData),
+                  let pngData = bitmapImage.representation(using: .png, properties: [:]) else {
+                assertionFailure("Failed to generate PNG data")
+                return
+            }
+            #else
+            guard let pngData = image.pngData() else {
+                assertionFailure("Failed to generate PNG data")
+                return
+            }
+            #endif
+            
+            let repoPath = URL(fileURLWithPath: "/Users/kevinbaumgartner/Documents/Projekte/Libraries/SwissQRBill/Results/")
             let qrImageFile = repoPath.appendingPathComponent("SwissQRBill.png")
             do {
-                try image.pngData()?.write(to: qrImageFile)
+                try pngData.write(to: qrImageFile)
                 print("QR code image saved at: \(qrImageFile.path)")
             } catch {
                 assertionFailure("Failed to save the QR code image file: \(error)")
@@ -67,7 +89,7 @@ class QRBillLibraryTests {
 
         // Save PDF to a specific repository path
         if let pdfData = pdfData {
-            let repoPath = URL(fileURLWithPath: "/Users/kevinbaumgartner/Documents/Projekte/Libraries/SwissQRBill/Results/") // Replace with your actual repository path
+            let repoPath = URL(fileURLWithPath: "/Users/kevinbaumgartner/Documents/Projekte/Libraries/SwissQRBill/Results/")
             let pdfFile = repoPath.appendingPathComponent("SwissQRBill.pdf")
             do {
                 try pdfData.write(to: pdfFile)
